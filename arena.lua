@@ -639,21 +639,7 @@ function reset(self)
 end
 
 function randomize(self, threshold)
-    local rand = math.random(threshold)
-    local amount = (1 / math.sqrt(2 * math.pi)) * math.exp(-0.5 * rand * rand)
-    local min, max = self.min, self.max
-    self.cells = {}
-    for index in iter_content(self) do
-        if self.cells[index] then
-            self.area[index] = c_cell
-        else
-            self.area[index] = c_air
-        end
-    end
-end
-
-function randomize_slow(self, threshold)
-    local min, max = self.min, self.max
+    self.area = get_area(self)
     self.cells = {}
     for index in iter_content(self) do
         if math.random() < threshold then
@@ -663,6 +649,9 @@ function randomize_slow(self, threshold)
             self.area[index] = c_air
         end
     end
+    calculate_neighbors(self)
+    write_to_map(self)
+    remove_area(self)
 end
 
 function next_steps(self, steps, rules)
