@@ -1,0 +1,41 @@
+{
+  "colors": {
+    "cell": {
+      "edge": {
+        "r": 0,
+        "g": 128,
+        "b": 0
+      },
+      "fill": {
+        "r": 0,
+        "g": 255,
+        "b": 0
+      }
+    },
+    "border": {
+      "edge": {
+        "r": 51,
+        "g": 51,
+        "b": 51
+      },
+      "fill": {
+        "r": 77,
+        "g": 77,
+        "b": 77
+      }
+    }
+  },
+  "max_steps": 10,
+  "request_duration": 30,
+  "creative": true,
+  "place_inside_player": false,
+  "speedup": true,
+  "mapcache": false,
+  "arena_defaults": {
+    "name": "unnamed",
+    "dimension": {"x": 80, "y": 80, "z": 80},
+    "search_origin": {"x": 0, "y": 0, "z": 0},
+    "steps": 1,
+    "threshold": 0.5
+  }
+}
