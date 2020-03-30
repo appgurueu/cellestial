@@ -371,38 +371,41 @@ function create_free(meta, origin, dim)
     local current_level = { origin or modlib.table.copy(cellestial.conf.arena_defaults.search_origin) }
     local iteration = 1
     local found_min
-    while true do
+    local area_found = false
+    repeat
         local new_level = {}
-        for _, min in pairs(current_level) do
-            local areas = area_store:get_areas_in_area(min, vector.add(min, dim), true, true, false)
-            if modlib.table.is_empty(areas) then
-                found_min = min
-                goto area_found
-            end
-            for id, area in pairs(modlib.table.shuffle(areas)) do
-                if not visited_ids[id] then
-                    visited_ids[id] = true
+        local function process_level()
+            for _, min in pairs(current_level) do
+                local areas = area_store:get_areas_in_area(min, vector.add(min, dim), true, true, false)
+                if modlib.table.is_empty(areas) then
+                    found_min = min
+                    area_found = true
+                    return
                 end
-                for _, coord in pairs(modlib.table.shuffle({ "x", "y", "z" })) do
-                    for _, new_value in pairs(modlib.table.shuffle({ area.min[coord] - dim[coord] - 1, area.max[coord] + 1 })) do
-                        local new_min = modlib.table.copy(area.min)
-                        new_min[coord] = new_value
-                        if iteration <= cutoff_min_iteration or math.random() < 1 / math.pow(cutoff_factor, iteration - cutoff_min_iteration) then
-                            table.insert(new_level, new_min)
-                            if #new_level >= guaranteed_max then
-                                goto next_level
+                for id, area in pairs(modlib.table.shuffle(areas)) do
+                    if not visited_ids[id] then
+                        visited_ids[id] = true
+                    end
+                    for _, coord in pairs(modlib.table.shuffle({ "x", "y", "z" })) do
+                        for _, new_value in pairs(modlib.table.shuffle({ area.min[coord] - dim[coord] - 1, area.max[coord] + 1 })) do
+                            local new_min = modlib.table.copy(area.min)
+                            new_min[coord] = new_value
+                            if iteration <= cutoff_min_iteration or math.random() < 1 / math.pow(cutoff_factor, iteration - cutoff_min_iteration) then
+                                table.insert(new_level, new_min)
+                                if #new_level >= guaranteed_max then
+                                    return
+                                end
                             end
                         end
                     end
                 end
             end
         end
-        :: next_level ::
+        process_level()
         modlib.table.shuffle(new_level)
         current_level = new_level
         iteration = iteration + 1
-    end
-    :: area_found ::
+    until area_found
     local arena = new(found_min, vector.add(found_min, dim), meta)
     return arena
 end
