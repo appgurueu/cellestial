@@ -26,7 +26,6 @@ modlib.minetest.register_globalstep(60, function()
 end)
 modlib.minetest.register_globalstep(600, store_store)
 minetest.register_on_shutdown(store_store)
--- TODO use set_cell and the like for the performant step
 
 arenas = {}
 function unload_arenas()
@@ -598,6 +597,11 @@ end
 
 function iter_content(self)
     return self.voxelarea:iter(self.min.x + 1, self.min.y + 1, self.min.z + 1, self.max.x - 1, self.max.y - 1, self.max.z - 1)
+end
+
+function is_content(self, pos)
+    return pos.x >= self.min.x + 1 and pos.y >= self.min.y + 1 and pos.z >= self.min.z + 1
+        and pos.x <= self.max.x - 1 and pos.y <= self.max.y - 1 and pos.z <= self.max.z - 1
 end
 
 function _clear(self)

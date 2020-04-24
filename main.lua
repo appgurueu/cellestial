@@ -123,7 +123,7 @@ minetest.register_node("cellestial:cell", {
         if arena and arena:is_owner(digger:get_player_name()) then
             arena:set_cell(pos)
         else
-            minetest.set_node(pos, { name = "air" })
+            return unpack{minetest.node_dig(pos, node, digger)}
         end
         if not creative then
             local leftover = digger:get_inventory():add_item("main", "cellestial:cell")
@@ -137,7 +137,7 @@ minetest.register_node("cellestial:cell", {
         if not conf.place_inside_player then
             for _, player in pairs(minetest.get_connected_players()) do
                 local ppos = player:get_pos()
-               ppos.y = ppos.y + player:get_properties().eye_height
+                ppos.y = ppos.y + player:get_properties().eye_height
                 if ppos.x >= pos.x and ppos.y >= pos.y and ppos.z >= pos.z and ppos.x <= pos.x +1 and ppos.y <= pos.y + 1 and ppos.z <= pos.z + 1 then
                     return itemstack
                 end
@@ -147,10 +147,10 @@ minetest.register_node("cellestial:cell", {
             return
         end
         local arena = arena.get(pos)
-        if arena and arena:is_owner(placer:get_player_name()) then
+        if arena and arena:is_content(pos) and arena:is_owner(placer:get_player_name()) then
             arena:set_cell(pos, true)
         else
-            minetest.set_node(pos, { name = "cellestial:cell" })
+            return unpack{minetest.item_place_node(itemstack, placer, pointed_thing)}
         end
         if not creative then
             itemstack:take_item()
