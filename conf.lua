@@ -1,6 +1,7 @@
-local int = function(value) if value % 1 ~= 0 then return "Integer instead of float expected." end end
-local pos_int = { type = "number", range = { 1 }, func = int }
-local component = { type = "number", range = {0, 255}, func = int }
+-- TODO func = int is deprecated and only kept for compatibility
+local int = function(value) if value % 1 ~= 0 then return "Integer instead of float expected" end end
+local pos_int = { type = "number", range = { 1 }, int = true, func = int }
+local component = { type = "number", range = { 0, 255 }, int = true, func = int }
 local color = { type = "table", children = {r = component, g = component, b = component} }
 local node_colors = { fill = color, edge = color }
 local vector = { type = "table", children = { x = pos_int, y = pos_int, z = pos_int } }
