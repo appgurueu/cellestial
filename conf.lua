@@ -1,10 +1,9 @@
--- TODO func = int is deprecated and only kept for compatibility
+-- HACK func = int is deprecated and only kept for compatibility
 local int = function(value) if value % 1 ~= 0 then return "Integer instead of float expected" end end
 local pos_int = { type = "number", range = { 1 }, int = true, func = int }
 local component = { type = "number", range = { 0, 255 }, int = true, func = int }
 local color = { type = "table", children = {r = component, g = component, b = component} }
-local node_colors = { fill = color, edge = color }
-local vector = { type = "table", children = { x = pos_int, y = pos_int, z = pos_int } }
+local node_colors = { type = "table", children = {fill = color, edge = color} }
 local conf_spec = {
     type = "table",
     children = {
@@ -18,11 +17,14 @@ local conf_spec = {
         max_steps = pos_int,
         request_duration = pos_int,
         arena_defaults = {
-            name = { type = "string" },
-            dimension = vector,
-            search_origin = vector,
-            steps = pos_int,
-            threshold = { type = "number", range = {0, 1} }
+            type = "table",
+            children = {
+                name = { type = "string" },
+                dimension = { type = "table", children = { x = pos_int, y = pos_int, z = pos_int } },
+                search_origin = { type = "table", children = { x = {type="number"}, y = {type="number"}, z = {type="number"} } },
+                steps = pos_int,
+                threshold = { type = "number", range = {0, 1} }
+            }
         },
         creative = { type = "boolean" },
         speedup = { type = "boolean" },

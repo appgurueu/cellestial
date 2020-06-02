@@ -123,7 +123,7 @@ minetest.register_node("cellestial:cell", {
         if arena and arena:is_owner(digger:get_player_name()) then
             arena:set_cell(pos)
         else
-            return unpack{minetest.node_dig(pos, node, digger)}
+            return minetest.node_dig(pos, node, digger)
         end
         if not creative then
             local leftover = digger:get_inventory():add_item("main", "cellestial:cell")
@@ -150,7 +150,7 @@ minetest.register_node("cellestial:cell", {
         if arena and arena:is_content(pos) and arena:is_owner(placer:get_player_name()) then
             arena:set_cell(pos, true)
         else
-            return unpack{minetest.item_place_node(itemstack, placer, pointed_thing)}
+            return minetest.item_place_node(itemstack, placer, pointed_thing)
         end
         if not creative then
             itemstack:take_item()

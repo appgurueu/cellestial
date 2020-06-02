@@ -477,6 +477,7 @@ if speedup then
             neighbors[index] = neighbors[index] or 0
         end
         local delta = (cell and 1) or -1
+        -- This won't give out of bounds because it only iterates the inside of the voxelarea (content)
         for _, offset in pairs(self.offsets) do
             local newindex = index + offset
             neighbors[newindex] = (neighbors[newindex] or 0) + delta
@@ -514,6 +515,7 @@ function calculate_neighbors(self)
     self.neighbors = neighbors
     for index, _ in pairs(cells) do
         neighbors[index] = neighbors[index] or 0
+        -- This won't give out of bounds because it only iterates the inside of the voxelarea (content)
         for _, offset in pairs(offsets) do
             local new_index = index + offset
             neighbors[new_index] = (neighbors[new_index] or 0) + 1
@@ -577,6 +579,7 @@ else
         for index in iter_content(self) do
             local c_id = data[index]
             local amount = 0
+            -- This won't give out of bounds because it only iterates the inside of the voxelarea (content)
             for _, offset in pairs(offsets) do
                 if data[index + offset] == c_cell then
                     amount = amount + 1

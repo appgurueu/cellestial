@@ -12,7 +12,7 @@ local function register_chatcommand(cmd, desc, func, param)
                     if not arena:is_owner(name) and not is_cellestial(name) then
                         return false, "Not an owner of the current arena"
                     end
-                    return unpack({ func(arena, name, params) })
+                    return func(arena, name, params)
                 end
             }
     )
@@ -368,7 +368,7 @@ cmdlib.register_chatcommand(
                     if not player then
                         return false, "You need to be online to teleport"
                     end
-                    return unpack({create_teleport_request(name, arena, "pos", vector)})
+                    return create_teleport_request(name, arena, "pos", vector)
                 end
                 return success, arena
             end
@@ -389,7 +389,7 @@ cmdlib.register_chatcommand(
                 if not arena then
                     return false, "No arena with the ID #"..id
                 end
-                return unpack({create_teleport_request(name, arena, "id", id)})
+                return create_teleport_request(name, arena, "id", id)
             end
         }
 )
@@ -506,7 +506,7 @@ cmdlib.register_chatcommand(
             params = "<x> <y> <z> <width> <height> <length> [name] {owners}",
             description = "Create a new arena",
             func = function(sendername, params)
-                return unpack({ create_arena(sendername, params, {}) })
+                return create_arena(sendername, params, {})
             end
         }
 )
@@ -521,7 +521,7 @@ cmdlib.register_chatcommand(
                 if not player then
                     return false, "You need to be online in-game to use the command."
                 end
-                return unpack({ create_arena(sendername, params, vector.floor(player:get_pos())) })
+                return create_arena(sendername, params, vector.floor(player:get_pos()))
             end
         }
 )

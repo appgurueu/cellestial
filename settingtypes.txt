@@ -1,0 +1,27 @@
+cellestial.speedup (Cellestial speedup) bool true
+cellestial.creative (Cellestial creative) bool true
+cellestial.arena_defaults.dimension.y (Cellestial arena_defaults dimension y) int 80 1 1073741824
+cellestial.arena_defaults.dimension.x (Cellestial arena_defaults dimension x) int 80 1 1073741824
+cellestial.arena_defaults.dimension.z (Cellestial arena_defaults dimension z) int 80 1 1073741824
+cellestial.arena_defaults.threshold (Cellestial arena_defaults threshold) float 0.5 0.000000 1.000000
+cellestial.arena_defaults.search_origin.y (Cellestial arena_defaults search_origin y) float 0
+cellestial.arena_defaults.search_origin.x (Cellestial arena_defaults search_origin x) float 0
+cellestial.arena_defaults.search_origin.z (Cellestial arena_defaults search_origin z) float 0
+cellestial.arena_defaults.name (Cellestial arena_defaults name) string unnamed
+cellestial.arena_defaults.steps (Cellestial arena_defaults steps) int 1 1 1073741824
+cellestial.request_duration (Cellestial request_duration) int 30 1 1073741824
+cellestial.mapcache (Cellestial mapcache) bool false
+cellestial.colors.border.fill.r (Cellestial colors border fill r) int 77 0 255
+cellestial.colors.border.fill.b (Cellestial colors border fill b) int 77 0 255
+cellestial.colors.border.fill.g (Cellestial colors border fill g) int 77 0 255
+cellestial.colors.border.edge.r (Cellestial colors border edge r) int 51 0 255
+cellestial.colors.border.edge.b (Cellestial colors border edge b) int 51 0 255
+cellestial.colors.border.edge.g (Cellestial colors border edge g) int 51 0 255
+cellestial.colors.cell.fill.r (Cellestial colors cell fill r) int 0 0 255
+cellestial.colors.cell.fill.b (Cellestial colors cell fill b) int 0 0 255
+cellestial.colors.cell.fill.g (Cellestial colors cell fill g) int 255 0 255
+cellestial.colors.cell.edge.r (Cellestial colors cell edge r) int 0 0 255
+cellestial.colors.cell.edge.b (Cellestial colors cell edge b) int 0 0 255
+cellestial.colors.cell.edge.g (Cellestial colors cell edge g) int 128 0 255
+cellestial.max_steps (Cellestial max_steps) int 10 1 1073741824
+cellestial.place_inside_player (Cellestial place_inside_player) bool false
