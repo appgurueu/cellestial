@@ -636,9 +636,9 @@ register_chatcommand(
         "Add owner to the current arena",
         function(arena, name, param)
             local param_name = param.name or name
-            local namepos = arena:is_owner(name)
-            if not namepos and minetest.check_player_privs(name, { cellestial = true }) then
-                namepos = 1
+            local namepos = arena:get_position(name)
+            if not namepos then
+                return false, "Only owners can add others"
             end
             local position
             if param.position then
@@ -661,11 +661,12 @@ register_chatcommand(
         "Remove owner from current arena",
         function(arena, name, param)
             local param_name = param.name or name
-            local namepos = arena:is_owner(name)
-            if not namepos and minetest.check_player_privs(name, { cellestial = true }) then
-                namepos = 1
+            local namepos = arena:get_position(name)
+            local parampos = arena:get_position(param_name)
+            if not (namepos and parampos) then
+                return false, "Both players need to be owners"
             end
-            if namepos > arena:is_owner(param_name) then
+            if namepos > parampos then
                 return false, "Player " .. param_name .. " is in a higher position"
             end
             local success = arena:remove_owner(param_name)
@@ -681,8 +682,8 @@ register_chatcommand(
         "set_name",
         "Set name of current arena",
         function(arena, name, params)
-            local namepos = arena:is_owner(name)
-            if namepos > 1 then
+            local namepos = arena:get_position(name)
+            if not namepos or namepos > 1 then
                 return false, "Only the first owner can change the name."
             end
             local oldname = arena.meta.name

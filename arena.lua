@@ -197,6 +197,7 @@ end
 
 function store(self)
     delta = delta + 1
+    area_store:remove_area(self.id)
     return area_store:insert_area(self.min, self.max, serialize(self), self.id)
 end
 
@@ -265,6 +266,7 @@ function add_owner(self, name, index)
     if not modlib.table.contains(self.meta.owners) then
         table.insert(self.meta.owners, index or (#self.meta.owners + 1), name)
     end
+    arena:store()
     return success
 end
 
@@ -288,6 +290,7 @@ function remove_owner(self, name)
     if owner_index then
         table.remove(self.meta.owners, owner_index)
     end
+    arena:store()
 end
 
 function set_owners(self, owners)
@@ -297,6 +300,7 @@ function set_owners(self, owners)
     local to_be_removed = modlib.table.difference(self_owner_set, owner_set)
     modlib.table.foreach_key(to_be_added, modlib.func.curry(add_owner, self))
     modlib.table.foreach_key(to_be_removed, modlib.func.curry(add_owner, self))
+    arena:store()
 end
 
 function get_dim(self)
