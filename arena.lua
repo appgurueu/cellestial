@@ -129,7 +129,7 @@ function new(min, max, meta)
     end
     meta.name = meta.name or cellestial.conf.arena_defaults.name
     obj.meta = meta
-    obj.id = store(obj)
+    obj.id = assert(store(obj))
     create_role(obj)
     modlib.table.foreach_value(meta.owners, modlib.func.curry(add_owner_to_meta, obj))
     arenas[obj.id] = obj
@@ -197,7 +197,9 @@ end
 
 function store(self)
     delta = delta + 1
-    area_store:remove_area(self.id)
+    if self.id then
+        area_store:remove_area(self.id)
+    end
     return area_store:insert_area(self.min, self.max, serialize(self), self.id)
 end
 
