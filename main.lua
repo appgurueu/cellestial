@@ -109,7 +109,8 @@ minetest.register_node("cellestial:border", {
 -- Cells, item can be used for digging & placing
 minetest.register_node("cellestial:cell", {
     description = "Cell",
-    post_effect_color = colors.cell.fill,
+    -- TODO find a proper way for borders connecting to cells
+    post_effect_color = "#00000000",
     sunlight_propagates = true,
     light_source = minetest.LIGHT_MAX,
     tiles = { cell },
