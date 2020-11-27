@@ -120,21 +120,20 @@ register_chatcommand(
         "resize",
         "Resize arena",
         function(arena, _, params)
-            local dimensions = arena:get_dimensions()
+            local dim = arena:get_dim()
             for name, val in pairs(params) do
                 val = tonumber(val)
                 if not val or val % 1 ~= 0 then
                     return false, human_names[name] .. " needs to be an integer number"
                 end
-                local new_dim = dimensions[assign[name]] + val
+                local new_dim = dim[assign[name]] + val
                 if new_dim < 3 then
                     return false, dim_human_names[name] .. " needs to be at least 3 (as it includes the borders)"
                 end
-                dimensions[assign[name]] = new_dim
+                dim[assign[name]] = new_dim
             end
-            local s = arena:set_area(nil, dimensions)
-            if s then
-                return true, "Arena resized to " .. dimensions.x .. ", " .. dimensions.y .. ", " .. dimensions.z
+            if arena:resize(dim) then
+                return true, "Arena resized to " .. dim.x .. ", " .. dim.y .. ", " .. dim.z
             end
             return false, "Arena would collide with other arenas if resized"
         end,

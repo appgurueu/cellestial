@@ -342,10 +342,62 @@ function set_area(self, min, dim)
     if modlib.table.is_empty(areas) then
         self.min = new_min
         self.max = new_max
-        update(self)
         return true
     end
     return false
+end
+
+function set_borders(self)
+    local min, max = self.min, self.max
+    for coord = 1, 6 do
+        local coords = { min.x, min.y, min.z, max.x, max.y, max.z }
+        if coord > 3 then
+            coords[coord] = coords[coord - 3]
+        else
+            coords[coord] = coords[coord + 3]
+        end
+        for index in self.voxelarea:iter(unpack(coords)) do
+            self.area[index] = c_border
+        end
+    end
+end
+
+function resize(self, dim)
+    local min = self.min
+    local old_max = self.max
+    if not set_area(self, nil, dim) then
+        return false
+    end
+    local max = self.max
+    local max_max = {}
+    for coord, value in pairs(max) do
+        max_max[coord] = math.max(value, old_max[coord])
+    end
+    local voxelmanip = minetest.get_voxel_manip(self.min, max_max)
+    local emin, emax = voxelmanip:read_from_map(self.min, max_max)
+    local voxelarea = VoxelArea:new{ MinEdge = emin, MaxEdge = emax }
+    local area = voxelmanip:get_data()
+    -- clear added area
+    for coord, v_coord in ipairs{"x", "y", "z"} do
+        local coords = { min.x, min.y, min.z, max_max.x, max_max.y, max_max.z }
+        local old = old_max[v_coord]
+        if old < coords[coord+3] then
+            coords[coord] = old
+        else
+            coords[coord] = max[v_coord]
+            coords[coord + 3] = old
+        end
+        for index in voxelarea:iter(unpack(coords)) do
+            area[index] = c_air
+        end
+    end
+    voxelmanip:set_data(area)
+    voxelmanip:write_to_map()
+    read_from_map(self)
+    set_borders(self)
+    write_to_map(self)
+    update(self)
+    return true
 end
 
 function get(pos)
@@ -634,17 +686,7 @@ function reset(self)
     local min, max = self.min, self.max
     get_area(self)
     _clear(self)
-    for coord = 1, 6 do
-        local coords = { min.x, min.y, min.z, max.x, max.y, max.z }
-        if coord > 3 then
-            coords[coord] = coords[coord - 3]
-        else
-            coords[coord] = coords[coord + 3]
-        end
-        for index in self.voxelarea:iter(unpack(coords)) do
-            self.area[index] = c_border
-        end
-    end
+    set_borders(self)
     local light_data = self.voxelmanip:get_light_data()
     for index in self.voxelarea:iter(min.x, min.y, min.z, max.x, max.y, max.z) do
         light_data[index] = minetest.LIGHT_MAX
