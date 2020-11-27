@@ -123,7 +123,7 @@ function create_role(self)
 end
 
 function new(min, max, meta)
-    local obj = create_base(min, max)
+    local obj = create_base(min, vector.subtract(max, 1))
     if not obj then
         return obj
     end
