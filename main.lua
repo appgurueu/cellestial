@@ -93,7 +93,7 @@ minetest.register_node("cellestial:border", {
     sunlight_propagates = true,
     light_source = minetest.LIGHT_MAX,
     tiles = { border },
-    groups = { not_in_creative_inventory = 1 },
+    groups = { not_in_creative_inventory = 1, fall_damage_add_percent = -100 },
     can_dig = function()
         return false
     end,
@@ -114,7 +114,7 @@ minetest.register_node("cellestial:cell", {
     sunlight_propagates = true,
     light_source = minetest.LIGHT_MAX,
     tiles = { cell },
-    groups = { oddly_breakable_by_hand = 3 },
+    groups = { oddly_breakable_by_hand = 3, fall_damage_add_percent = -100 },
     range = (creative and 20) or 4,
     on_dig = function(pos, node, digger)
         if minetest.is_protected(pos, digger:get_player_name()) then
