@@ -400,6 +400,32 @@ function resize(self, dim)
     return true
 end
 
+function move(self, min)
+    local old_min, old_max = self.min, self.max
+    local voxelmanip = minetest.get_voxel_manip(old_min, old_max)
+    local emin, emax = voxelmanip:read_from_map(old_min, old_max)
+    local voxelarea = VoxelArea:new{ MinEdge = emin, MaxEdge = emax }
+    local previous_data = voxelarea:iterp(old_min, old_max)
+    if not set_area(self, min, get_dim(self)) then
+        return false
+    end
+    local area = voxelmanip:get_data()
+    local area_copy = modlib.table.copy(area)
+    for index in voxelarea:iterp(old_min, old_max) do
+        area[index] = c_air
+    end
+    voxelmanip:set_data(area)
+    voxelmanip:write_to_map()
+    read_from_map(self)
+    for index in self.voxelarea:iterp(self.min, self.max) do
+        local previous_data_index = previous_data()
+        self.area[index] = area_copy[previous_data_index]
+    end
+    write_to_map(self)
+    remove_area(self)
+    return true
+end
+
 function get(pos)
     local areas = area_store:get_areas_for_pos(pos, true, true)
     local id = next(areas)

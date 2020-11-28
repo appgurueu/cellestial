@@ -152,8 +152,7 @@ register_chatcommand(
                 local new_dim = position[assign[name]] + val
                 position[assign[name]] = new_dim
             end
-            local s = arena:set_area(position)
-            if s then
+            if arena:move(position) then
                 return true, "Arena moved to " .. position.x .. ", " .. position.y .. ", " .. position.z
             end
             return false, "Arena would collide with other arenas if moved"
