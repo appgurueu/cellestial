@@ -150,7 +150,7 @@ minetest.register_node("cellestial:cell", {
         local arena = arena.get(pos)
         if arena and arena:is_content(pos) and arena:is_owner(placer:get_player_name()) then
             arena:set_cell(pos, true)
-        else
+        elseif regular_placing then
             return minetest.item_place_node(itemstack, placer, pointed_thing)
         end
         if not creative then

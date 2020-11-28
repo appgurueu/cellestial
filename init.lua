@@ -4,11 +4,13 @@ if not minetest.features.area_store_persistent_ids then
     error("Cellestial requires persistent area store IDs, upgrade to Minetest 5.1 or newer")
 end
 mod.extend("conf")
+cellestial.regular_placing = true
 local cellestiall_init = minetest.get_modpath"cellestiall"
 if cellestiall_init then
     cellestiall_init = cellestiall_init .. "/init.lua"
 end
 if cellestiall and modlib.file.exists(cellestiall_init) then
+    cellestial.regular_placing = false
     dofile(cellestiall_init)
 end
 mod.extend("main")
