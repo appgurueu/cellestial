@@ -123,7 +123,7 @@ function create_role(self)
 end
 
 function new(min, max, meta)
-    local obj = create_base(min, vector.subtract(max, 1))
+    local obj = create_base(min, max)
     if not obj then
         return obj
     end
@@ -160,7 +160,7 @@ function owner_info(self)
 end
 
 function info(self)
-    local dim = get_dim(self)
+    local dim = vector.add(get_dim(self), 1)
     return ('Arena #%s "%s" by %s from (%s, %s, %s) to (%s, %s, %s) - %s wide, %s tall and %s long'):format(
             self.id,
             self.meta.name,
@@ -178,7 +178,7 @@ function info(self)
 end
 
 function formspec_table_info(self)
-    local dim = get_dim(self)
+    local dim = vector.add(get_dim(self), 1)
     return table.concat(modlib.table.map({
         cellestial.colors.cell.fill,
         "#" .. self.id,
@@ -661,7 +661,6 @@ else
             new_data[index] = c_id
         end
         self.area = new_data
-        local min, max = self.min, self.max
         for index in iter_content(self) do
             local c_id = data[index]
             local amount = 0

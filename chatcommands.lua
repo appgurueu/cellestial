@@ -133,7 +133,7 @@ register_chatcommand(
                 dim[assign[name]] = new_dim
             end
             if arena:resize(dim) then
-                return true, "Arena resized to " .. dim.x .. ", " .. dim.y .. ", " .. dim.z
+                return true, "Arena resized to " .. (dim.x + 1) .. ", " .. (dim.y + 1) .. ", " .. (dim.z + 1)
             end
             return false, "Arena would collide with other arenas if resized"
         end,
@@ -490,7 +490,7 @@ function create_arena(sendername, params, nums)
     if arena.overlaps(min, max) then
         return false, "Selected area intersects with existing arenas"
     end
-    local arena = arena.new(min, max, { name = name, owners = owners })
+    local arena = arena.new(min, vector.subtract(max, 1), { name = name, owners = owners })
     arena:teleport(minetest.get_player_by_name(owners[1]))
     if arena then
         return true, "Arena created"
