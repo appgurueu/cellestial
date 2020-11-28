@@ -397,6 +397,7 @@ function resize(self, dim)
     set_borders(self)
     write_to_map(self)
     update(self)
+    store(self)
     return true
 end
 
@@ -423,6 +424,7 @@ function move(self, min)
     end
     write_to_map(self)
     remove_area(self)
+    store(self)
     return true
 end
 
