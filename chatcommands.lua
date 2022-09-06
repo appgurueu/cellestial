@@ -143,7 +143,7 @@ register_chatcommand(
         "move",
         "Move arena",
         function(arena, _, params)
-            local position = modlib.table.tablecopy(arena.min)
+            local position = modlib.table.copy(arena.min)
             for name, val in pairs(params) do
                 val = tonumber(val)
                 if not val or val % 1 ~= 0 then

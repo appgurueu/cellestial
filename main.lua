@@ -382,7 +382,7 @@ end
 function obtain_wand(meta)
     local wand
     if ensure_wand(meta) then
-        wand = modlib.table.tablecopy(default_wand)
+        wand = modlib.table.copy(default_wand)
     else
         wand = deserialize_wand(meta)
     end

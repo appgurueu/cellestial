@@ -541,7 +541,7 @@ function remove(self)
 end
 
 function get_cell(self, pos)
-    local index = self.voxelarea:indexp(pos)
+    local index = self.voxelarea:indexp(pos) -- TODO use minetest.hash_node_position instead
     if speedup then
         return self.cells[index] == true
     end
