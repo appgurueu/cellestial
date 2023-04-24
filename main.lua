@@ -71,16 +71,15 @@ for i = 1, #_help_content, 3 do
     end
 end
 help_formspec = ([[
-size[8,5]
+size[12,8]
 real_coordinates[true]
-box[0,0;8,1;%s]
-label[0.25,0.35;%sCellestial%s - cellular automata for Minetest]
-label[0.25,0.7;%shttps://appgurueu.github.io/cellestial]
+box[0,0;12,1;%s]
+label[0.25,0.5;%sCellestial%s - cellular automata for Minetest]
 tablecolumns[color;tree;text]
 tableoptions[background=#00000000;highlight=#00000000;border=false;opendepth=2]
-table[-0.15,1.25;7.9,3.5;help;%s]
-image_button_exit[7.25,0.25;0.5,0.5;cmdlib_cross.png;close;]
-]]):format(colors.cell.fill, ces(colors.cell.edge), ces("#FFFFFF"), ces(colors.cell.edge), table.concat(help_content, ","))
+table[-0.15,1.25;11.9,6.5;help;%s]
+image_button_exit[11.25,0.25;0.5,0.5;cmdlib_cross.png;close;]
+]]):format(colors.cell.fill, ces(colors.cell.edge), ces(colors.cell.edge), table.concat(help_content, ","))
 
 function show_help(name)
     minetest.show_formspec(name, "cellestial:help", help_formspec)
